@@ -206,7 +206,16 @@ export class MonthsComponent implements OnInit {
   
   
   
-  
+  onDelete(id:any){
+    console.log(id)
+    this.http.delete(`http://localhost:5100/expenses/${id}`).subscribe((res) => {
+      const response = confirm("Are you sure?")
+      if(response){
+        alert("Month Deleted Successfully!")
+      }
+      console.log(res)
+    })
+  }
   
   
 

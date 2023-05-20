@@ -369,6 +369,26 @@ app.delete('/expenses', (req, res) => {
 });
 
 
+app.delete('/expenses/:id', (req, res) => {
+    const expenseId = req.params.id; // Access the expense ID from the request parameters
+  
+    models.Expense.deleteMany({ _id: expenseId }) // Delete expenses matching the provided ID
+      .then(deletedExpenses => {
+        if (!deletedExpenses || deletedExpenses.deletedCount === 0) {
+          return res.status(404).json({ error: 'No expenses found' });
+        }
+  
+        console.log('Expenses deleted successfully:', deletedExpenses);
+        res.status(200).json(deletedExpenses);
+      })
+      .catch(error => {
+        console.error('Failed to delete expenses:', error);
+        res.status(500).json({ error: 'Failed to delete expenses' });
+      });
+  });
+  
+
+
 app.get('/expenses', (req, res) => {
     models.Expense.find()
         .then(expenses => {
